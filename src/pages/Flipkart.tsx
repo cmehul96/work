@@ -1,19 +1,63 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Share2, Check, Home, Lightbulb, Code, Users, Rocket, Target, PlayCircle, BarChart, FileText, ArrowRight } from "lucide-react";
-import { AgentWorkflowVisualization } from "../components/agent-visualization";
-import { ForesightMascot } from "../components/ui/foresight-mascot";
+import { ArrowLeft, Search, CheckCircle2, TrendingUp, Lightbulb, User, Shield, CreditCard, Award, XCircle, Sparkles, Gem } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { ThemeToggle } from "../components/ui/theme-toggle";
 import { cn } from "../lib/utils";
 import { ExploreProjects } from "../components/explore-projects";
-
+import { PasswordLock } from "../components/password-lock";
 import { SiteFooter } from "../components/site-footer";
+import { FlipkartFrameworkVisual } from "../components/flipkart/framework-visual";
+
+import { FlipkartIdeationVisual } from "../components/flipkart/ideation-visual";
 
 // --- Images Mapping ---
-// No longer needed
+const heroBanner = "/images/flipkart/1.0.jpeg";
+const insight1Image = "/images/flipkart/1.1.jpeg";
+const insight2Image = "/images/flipkart/1.2.jpeg";
+const insight3Image = "/images/flipkart/1.3.jpeg";
 
 // --- Helper UI Components ---
+function QuoteBlock({ quote, author, role, blurred = false }: { quote: React.ReactNode, author: React.ReactNode, role: React.ReactNode, blurred?: boolean }) {
+    return (
+        <blockquote className={cn("my-8 pl-6 md:pl-8 py-2 border-l-[3px] border-primary relative", blurred && "blur-md pointer-events-none opacity-40 select-none")}>
+            <div className="absolute -left-3 top-0 text-7xl text-primary/10 font-spectral leading-none">"</div>
+            <p className="text-base md:text-lg italic font-normal text-muted-foreground leading-relaxed mb-4 font-spectral tracking-normal">"{quote}"</p>
+            <footer className="text-sm font-semibold tracking-wide uppercase text-muted-foreground flex items-center gap-2 font-sans">
+                <span className="w-4 h-px bg-muted-foreground/30"></span>
+                <span className="text-primary">{author}</span> 
+                <span className="text-muted-foreground/40">•</span> 
+                <span className="font-medium">{role}</span>
+            </footer>
+        </blockquote>
+    );
+}
+
+function ExpandableQuotes({ topQuotes, hiddenQuotes }: { topQuotes: React.ReactNode, hiddenQuotes?: React.ReactNode }) {
+    const [expanded, setExpanded] = useState(false);
+    
+    return (
+        <div>
+            {topQuotes}
+            {hiddenQuotes && (
+                <>
+                    <div className={cn("overflow-hidden transition-all duration-700 ease-in-out will-change-[max-height,opacity]", expanded ? "max-h-[3000px] opacity-100" : "max-h-0 opacity-0 pointer-events-none")}>
+                        {hiddenQuotes}
+                    </div>
+                    <Button variant="ghost" size="sm" className="w-full mt-4 text-muted-foreground hover:text-primary transition-colors bg-primary/5 hover:bg-primary/10 rounded-xl font-sans" onClick={() => setExpanded(!expanded)}>
+                        {expanded ? "Show Less" : "See More Quotes"}
+                    </Button>
+                </>
+            )}
+        </div>
+    );
+}
+
+function TargetChip({ target }: { target: 'NTC' | 'ETC' | 'Both' }) {
+    const text = target === 'Both' ? 'NTC & ETC' : target;
+    return <span className="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest bg-primary/10 text-primary border border-primary/20">{text}</span>;
+}
+
 function InsightSection({ label, title, children }: { label: string, title: string, children: React.ReactNode }) {
     return (
         <div className="mb-20">
@@ -30,231 +74,577 @@ function InsightSection({ label, title, children }: { label: string, title: stri
     );
 }
 
-export default function ForesitePage() {
+function IdeationCard({ saw, know, pattern, idea }: { saw: string, know: string, pattern: string, idea: React.ReactNode }) {
     return (
-        <main className="min-h-screen bg-background text-foreground font-spectral selection:bg-primary/20">
-            {/* Header */}
-            <header className="h-16 w-full flex items-center justify-between px-6 md:px-12 border-b border-border/5 bg-background/95 backdrop-blur-md sticky top-0 z-50 font-sans">
-                <Link to="/" className="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-primary/5 group text-foreground">
-                    <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
-                </Link>
-                
-                <div className="flex items-center gap-2 opacity-0 pointer-events-none font-sans">
-                    <div className="w-6 h-6 flex items-center justify-center text-primary">
-                        <ForesightMascot isVisible={true} />
+        <div className="bg-background border border-border/10 rounded-3xl overflow-hidden shadow-sm flex flex-col font-sans mb-8">
+            <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-border/10">
+                <div className="p-6 md:p-8 bg-muted/20">
+                    <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-3 flex items-center gap-2">
+                        <Search className="w-3 h-3 text-primary" /> I saw this
                     </div>
-                    <span className="font-black tracking-[0.2em] uppercase text-xs">Foresite</span>
+                    <p className="text-foreground/90 font-medium">{saw}</p>
                 </div>
-                
-                <div className="flex items-center gap-4 font-sans">
-                    <ThemeToggle />
-                </div>
-            </header>
-
-            {/* Hero Section */}
-            <div className="w-full bg-muted/10 border-b border-border/10 font-sans pt-12 pb-20 px-6">
-                <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
-                    <div className="flex items-center gap-3 mb-8">
-                        <span className="px-3 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest rounded-full font-sans">
-                            Case Study
-                        </span>
-                        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Aug 2025 - Dec 2025</span>
+                <div className="p-6 md:p-8 bg-muted/20">
+                    <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-3 flex items-center gap-2">
+                        <CheckCircle2 className="w-3 h-3 text-primary" /> I know this
                     </div>
-                    
-                    <h1 className="text-4xl md:text-5xl lg:text-[4.5rem] font-bold tracking-tighter leading-[1.05] mb-8 text-balance font-sans">
-                        <a href="https://theforesite.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors underline decoration-primary/30 underline-offset-8">Foresite</a>: AI Research Team
-                    </h1>
-                    
-                    <p className="text-xl md:text-2xl text-muted-foreground/80 font-normal max-w-3xl leading-relaxed font-sans mb-4">
-                        Building an always-on AI research platform that autonomously conducts interviews, analyzes insights, and delivers actionable recommendations.
-                    </p>
-
-                    <div className="w-full mt-8 max-w-5xl mx-auto h-[500px] md:h-[600px] flex items-center justify-center rounded-[2rem] overflow-hidden bg-muted/10 shadow-2xl shadow-primary/5 border border-border/5 relative">
-                        <div className="absolute inset-0 flex items-center justify-center scale-90 md:scale-100">
-                            <AgentWorkflowVisualization />
+                    <p className="text-foreground/90 font-medium">{know}</p>
+                </div>
+            </div>
+            
+            <div className="p-6 md:p-8 border-t border-border/10 bg-primary/5">
+                <div className="flex flex-col md:flex-row md:items-center gap-8">
+                    <div className="flex-1">
+                        <div className="text-[10px] font-black uppercase tracking-widest text-primary mb-3 flex items-center gap-2">
+                            <TrendingUp className="w-3 h-3" /> Design Pattern
                         </div>
+                        <p className="text-foreground font-bold text-lg leading-tight">{pattern}</p>
+                    </div>
+                    <div className="hidden md:block w-px h-16 bg-primary/10"></div>
+                    <div className="flex-1">
+                        <div className="text-[10px] font-black uppercase tracking-widest text-primary mb-3 flex items-center gap-2">
+                            <Lightbulb className="w-3 h-3 fill-primary/20" /> Feature Idea
+                        </div>
+                        <div className="text-primary font-medium">{idea}</div>
                     </div>
                 </div>
             </div>
+        </div>
+    );
+}
 
-            {/* Content Container */}
-            <article className="max-w-3xl mx-auto px-6 py-12 font-sans">
-                
-                {/* TOC */}
-                <div className="mb-16 p-8 rounded-3xl bg-primary/[0.02] border border-primary/10 font-sans">
-                    <div className="text-[10px] font-black uppercase tracking-widest text-primary mb-6">Table of Contents</div>
-                    <ul className="space-y-4 text-base font-bold text-foreground/80">
-                        <li><a href="#initiation" className="flex items-center gap-4 hover:text-primary transition-colors hover:translate-x-1 transform duration-200">The Initiation</a></li>
-                        <li><a href="#building-the-product" className="flex items-center gap-4 hover:text-primary transition-colors hover:translate-x-1 transform duration-200">Building the Product</a></li>
-                        <li><a href="#pilots-and-deployment" className="flex items-center gap-4 hover:text-primary transition-colors hover:translate-x-1 transform duration-200">Pilots and Deployment</a></li>
-                        <li><a href="#demo-video" className="flex items-center gap-4 hover:text-primary transition-colors hover:translate-x-1 transform duration-200">Demo Video</a></li>
-                        <li><a href="#outcome-and-learnings" className="flex items-center gap-4 hover:text-primary transition-colors hover:translate-x-1 transform duration-200">Outcome & Learnings</a></li>
-                        <li><a href="#real-world-application" className="flex items-center gap-4 hover:text-primary transition-colors hover:translate-x-1 transform duration-200">Real-World Application: Groww</a></li>
-                    </ul>
+export default function FlipkartPage() {
+    return (
+        <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
+            {/* Header */}
+            <nav className="fixed top-0 w-full px-6 py-4 md:px-12 z-50 flex justify-between items-center bg-background/90 backdrop-blur-md border-b border-border/10">
+                <Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide uppercase text-foreground/80 hover:text-primary transition-colors">
+                    <ArrowLeft size={16} /> Mehul.
+                </Link>
+                <div className="flex items-center gap-6">
+                    <ThemeToggle />
+                </div>
+            </nav>
+
+            <main className="pb-32">
+                {/* Hero Section */}
+                <div className="w-full bg-muted/10 border-b border-border/10 font-sans pt-12 pb-20 px-6">
+                    <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
+                        <div className="mb-8 flex items-center gap-3">
+                            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">UX Research</span>
+                            <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Mar 2020</span>
+                        </div>
+
+                        <h1 className="text-4xl md:text-5xl lg:text-[4.5rem] font-bold tracking-tighter leading-[1.05] mb-8 text-balance font-sans text-foreground">
+                            Co-Branded Card <br/>Research & Strategy
+                        </h1>
+                        
+                        <p className="text-xl md:text-2xl text-muted-foreground/80 font-normal max-w-3xl leading-relaxed font-sans mb-4">
+                            Understanding the motivations, apprehensions, and critical deterrents surrounding the adoption of Co-Branded Credit Cards among both 'New to Credit' (NTC) and 'Existing to Credit' (ETC) users.
+                        </p>
+
+                        <div className="w-full mt-8 rounded-[2rem] overflow-hidden bg-muted/10 shadow-2xl shadow-primary/5">
+                            <img 
+                                src={heroBanner} 
+                                alt="Credit Card Interface Mockup" 
+                                className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" 
+                            />
+                        </div>
+                    </div>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-6 mb-16 font-sans">
-                    <div className="p-6 rounded-3xl bg-muted/40 font-spectral">
-                        <div className="text-[10px] font-black font-sans uppercase tracking-widest text-muted-foreground/60 mb-2">My Role</div>
-                        <div className="text-lg font-medium">Founder, Lead Design & Product, Frontend Engineer</div>
-                    </div>
-                    <div className="p-6 rounded-3xl bg-muted/40 font-spectral">
-                        <div className="text-[10px] font-black font-sans uppercase tracking-widest text-muted-foreground/60 mb-2">Team Size</div>
-                        <div className="text-lg font-medium">3 (Co-founder, Intern, Myself)</div>
+                <div className="w-full max-w-[800px] mx-auto px-6 md:px-0 mt-16 mb-16">
+                    <div className="flex flex-wrap gap-8 text-sm uppercase tracking-widest font-semibold font-sans justify-center">
+                        <div className="flex flex-col gap-1 items-center">
+                            <span className="text-muted-foreground/50">Company</span>
+                            <span className="text-foreground">Flipkart</span>
+                        </div>
+                        <div className="flex flex-col gap-1 items-center">
+                            <span className="text-muted-foreground/50">Timeline</span>
+                            <span className="text-foreground">Mar 2020</span>
+                        </div>
+                        <div className="flex flex-col gap-1 items-center">
+                            <span className="text-muted-foreground/50">Role</span>
+                            <span className="text-foreground">Lead Researcher</span>
+                        </div>
                     </div>
                 </div>
 
-                <div className="w-full h-px bg-border/20 my-16"></div>
-
-                <section id="initiation" className="scroll-mt-32">
-                    <InsightSection label="Genesis" title="The Initiation">
-                        <p>
-                            With the advent of voice models rapidly improving, an undeniable industry trend emerged: researchers were increasingly relying on LLMs for formulating questions and conducting post-research analysis. 
-                        </p>
-                        <p>
-                            However, the "missing link" remained moderation. I realized that <strong className="font-bold italic text-foreground">even moderation could be executed autonomously</strong> utilizing advanced voice models and agents. This realization served as the foundational spark for <a href="https://theforesite.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold hover:underline">Foresite</a>.
-                        </p>
-                    </InsightSection>
-                </section>
-
-                <section id="building-the-product" className="scroll-mt-32">
-                    <InsightSection label="Execution" title="Building the Product">
-                        <div className="grid gap-6 my-10 font-sans">
-                            <div className="p-8 rounded-[2rem] bg-muted/40 relative overflow-hidden group transition-colors flex flex-col md:flex-row gap-6 items-start">
-                                <div className="flex-shrink-0 p-4 rounded-xl bg-primary/10 text-primary">
-                                    <Code className="w-6 h-6" />
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-bold tracking-tight mb-2 font-sans">Phase 1: Vibe Coding</h3>
-                                    <p className="text-base text-muted-foreground/90 leading-relaxed font-spectral">
-                                        I developed the initial prototype entirely on my own using vibe coding. This first iteration was a text-based interviewing platform that validated the core premise of agentic moderation.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="p-8 rounded-[2rem] bg-muted/40 relative overflow-hidden group transition-colors flex flex-col md:flex-row gap-6 items-start">
-                                <div className="flex-shrink-0 p-4 rounded-xl bg-primary/10 text-primary">
-                                    <Users className="w-6 h-6" />
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-bold tracking-tight mb-2 font-sans">Phase 2: Team Expansion</h3>
-                                    <p className="text-base text-muted-foreground/90 leading-relaxed font-spectral">
-                                        To scale the vision, I partnered with a co-founder and brought on an intern. Together, we built the full agentic experience and integrated real-time voice-based interviewing capabilities.
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div className="p-8 rounded-[2rem] bg-primary/5 border border-primary/10 relative overflow-hidden group transition-colors flex flex-col md:flex-row gap-6 items-start">
-                                <div className="flex-shrink-0 p-4 rounded-xl bg-primary/20 text-primary">
-                                    <Target className="w-6 h-6" />
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-bold tracking-tight mb-2 font-sans">Responsibilities</h3>
-                                    <p className="text-base text-foreground/90 leading-relaxed font-spectral">
-                                        I spearheaded the <strong className="font-bold">design, product strategy, and front-end development</strong>. The robust backend infrastructure was concurrently developed by my co-founder and our intern.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </InsightSection>
-                </section>
-
-                <section id="pilots-and-deployment" className="scroll-mt-32">
-                    <InsightSection label="Traction" title="Pilots and Deployment">
-                        <p>
-                            Development was completed by the end of December 2025. Following the launch, we engaged in aggressive go-to-market efforts, conducting demos with numerous companies across India and several in the US.
-                        </p>
-                        <p>
-                            We successfully secured and executed pilot programs with two prominent tech companies in India: <strong className="font-bold text-foreground">Myntra and Groww</strong>.
-                        </p>
-                    </InsightSection>
-                </section>
-
-                <div className="w-full h-px bg-border/20 my-16"></div>
-
-                <section id="demo-video" className="scroll-mt-32 mb-20">
-                    <div className="flex flex-col mb-8">
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest mb-4 w-fit font-sans">
-                            Product Demo
-                        </div>
-                        <h3 className="text-2xl md:text-4xl font-bold tracking-tight leading-[1.2] font-sans text-foreground/90">See Foresite in Action</h3>
-                    </div>
+                {/* Main Content constraints */}
+                <div className="max-w-[800px] mx-auto px-6 md:px-0">
                     
-                    <div className="w-full aspect-video rounded-3xl overflow-hidden shadow-2xl shadow-primary/10">
-                        <iframe 
-                            className="w-full h-full"
-                            src="https://www.youtube.com/embed/zNpQX1fGpzg"
-                            title="Foresite Platform Demo"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                        />
-                    </div>
-                </section>
-
-                <div className="w-full h-px bg-border/20 my-16"></div>
-
-                <section id="outcome-and-learnings" className="scroll-mt-32">
-                    <InsightSection label="Conclusion" title="Outcome & Learnings">
-                        <p>
-                            While the pilot programs proved highly successful from a product utility standpoint, the business reality was more challenging.
-                        </p>
-                        <ul className="list-none space-y-6 my-8 p-0">
-                            <li className="flex gap-4 items-start">
-                                <div className="mt-1 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                                    <div className="w-2 h-2 rounded-full bg-primary"></div>
+                    <section id="methodology" className="scroll-mt-32">
+                        <InsightSection label="Groundwork" title="Methodology">
+                            <p>
+                                To uncover actionable insights, we conducted intensive focus group sessions over two major Indian cities: Bangalore and Jaipur. 
+                                We deliberately constructed 8 focus groups across age and gender divides, ensuring a hyper-localized view of credit perception.
+                            </p>
+                            <p>
+                                By placing both NTC (New to Credit) and ETC (Existing to Credit) participants in the same rooms, 
+                                we incited vigorous debates. This hybrid approach allowed us to observe the organic dismantling of credit myths and the transfer of financial literacy in real-time.
+                            </p>
+                            <div className="my-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div className="p-6 rounded-2xl bg-muted/30 border border-border/5 text-center flex flex-col items-center justify-center">
+                                    <span className="text-3xl font-black text-primary mb-2">12</span>
+                                    <span className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">Study Hours</span>
                                 </div>
-                                <div className="font-spectral text-lg text-foreground/80 leading-relaxed">
-                                    <strong className="font-sans font-bold block text-foreground mb-1">Market Size Constraint</strong>
-                                    We ultimately realized that the Indian market, at its current maturity level, was not sufficiently large to support a venture-scale product in this specific niche.
+                                <div className="p-6 rounded-2xl bg-muted/30 border border-border/5 text-center flex flex-col items-center justify-center">
+                                    <span className="text-3xl font-black text-primary mb-2">42</span>
+                                    <span className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">Participants</span>
                                 </div>
-                            </li>
-                            <li className="flex gap-4 items-start">
-                                <div className="mt-1 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                                    <div className="w-2 h-2 rounded-full bg-primary"></div>
+                                <div className="p-6 rounded-2xl bg-muted/30 border border-border/5 text-center flex flex-col items-center justify-center">
+                                    <span className="text-3xl font-black text-primary mb-2">8</span>
+                                    <span className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">Focus Groups</span>
                                 </div>
-                                <div className="font-spectral text-lg text-foreground/80 leading-relaxed">
-                                    <strong className="font-sans font-bold block text-foreground mb-1">Fierce US Competition</strong>
-                                    Conversely, the US market - though mature enough - already possessed heavily funded, entrenched competitors executing rapidly.
+                                <div className="p-6 rounded-2xl bg-muted/30 border border-border/5 text-center flex flex-col items-center justify-center">
+                                    <span className="text-3xl font-black text-primary mb-2">2</span>
+                                    <span className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">Cities</span>
                                 </div>
-                            </li>
-                        </ul>
-                        <p>
-                            Based on these market dynamics, we ultimately made the decision to cease operations. However, the journey provided an immense depth of learning in AI agentic workflows, product-market fit evaluation, and voice-model integration.
-                        </p>
-                    </InsightSection>
-                </section>
+                            </div>
+                        </InsightSection>
+                    </section>
 
-                <section id="real-world-application" className="scroll-mt-32">
-                    <div className="bg-muted/40 border border-border/10 p-8 md:p-12 rounded-[2.5rem] relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-32 bg-primary/5 rounded-full blur-[100px] pointer-events-none -z-10"></div>
-                        
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest mb-6 w-fit font-sans">
-                            End-to-End Execution
-                        </div>
-                        
-                        <h3 className="text-2xl md:text-4xl font-bold tracking-tight mb-6 font-sans">
-                            AI Adoption in Investors <span className="font-light italic text-muted-foreground block text-2xl mt-2">(Groww Pilot)</span>
-                        </h3>
-                        
-                        <p className="text-lg md:text-xl text-foreground/80 leading-[1.8] font-spectral mb-10">
-                            The extensive research report analyzing the "Trust Barrier" in AI wealth advisors was conducted <strong className="font-bold text-foreground">end-to-end utilizing Foresite</strong> during our pilot with Groww. Foresite structured the plans, conducted autonomous moderation sessions, and synthesized the qualitative insights.
-                        </p>
+                    <div className="w-full h-px bg-border/20 my-16"></div>
 
-                        <Link to="/report" className="inline-flex items-center gap-2 px-6 py-4 bg-primary text-primary-foreground rounded-2xl font-bold font-sans hover:bg-primary/90 transition-colors group/btn">
-                            <FileText className="w-5 h-5" />
-                            Read the AI Adoption Report
-                            <ArrowRight className="w-5 h-5 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                        </Link>
-                    </div>
-                </section>
+                    <section id="framework" className="scroll-mt-32">
+                        <InsightSection label="Synthesis" title="The Credit Adoption Engine">
+                            <p>
+                                The research stripped away the surface-level metrics to reveal the true psychology of credit adoption. 
+                                We found that adoption isn't linear; it's a simultaneous negotiation of three overlapping paradigms.
+                            </p>
+                            
+                            <FlipkartFrameworkVisual />
 
-                <div className="h-16"></div>
-            </article>
+                            <div className="bg-primary/5 rounded-3xl p-8 border border-primary/10 mt-12 font-sans relative overflow-hidden">
+                                <div className="absolute top-0 right-0 p-8 text-primary/10 opacity-50">
+                                    <CreditCard className="w-32 h-32" />
+                                </div>
+                                <h4 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                    Key Findings by Cohort
+                                </h4>
+                                <ul className="space-y-4 relative z-10 text-foreground/80 leading-relaxed max-w-[90%]">
+                                    <li className="flex gap-4">
+                                        <Shield className="w-6 h-6 text-foreground shrink-0" />
+                                        <span><strong>New to Credit (NTC):</strong> Defined by apprehension. They believe credit leads to uncontrollable debt and hidden fees. Cash signifies control. Trust is the primary barrier.</span>
+                                    </li>
+                                    <li className="flex gap-4">
+                                        <Sparkles className="w-6 h-6 text-foreground shrink-0" />
+                                        <span><strong>Existing to Credit (ETC):</strong> Defined by optimization. They view credit as liquid capital. They meticulously track 'No Cost EMIs' and cashback rewards. Tangible value is their metric.</span>
+                                    </li>
+                                    <li className="flex gap-4">
+                                        <Award className="w-6 h-6 text-foreground shrink-0" />
+                                        <span><strong>The Commoditization Trap:</strong> With aggressive mall kiosks and cold calls, credit cards have lost their aspirational allure. Users wait to be courted rather than applying upfront. Exclusivity must be restored.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </InsightSection>
+                    </section>
+                    
+                    <div className="w-full h-px bg-border/20 my-16"></div>
 
-            {/* Explore Projects */}
-            <ExploreProjects />
+                    <PasswordLock>
+                    <section id="insights" className="scroll-mt-32">
+                        <InsightSection label="Deep Dive" title="User Insights">
+                            
+                            {/* Pillar 1: Trust Foundation */}
+                            <div className="mt-12 mb-20">
+                                <h4 className="text-2xl font-sans font-bold flex items-center gap-3 mb-4 text-foreground">
+                                    <Shield className="text-foreground bg-primary/10 p-1.5 rounded-lg w-8 h-8" />
+                                    Trust Foundation: Addressing Apprehensions
+                                </h4>
+                                <p className="font-spectral text-lg text-foreground/80 leading-relaxed mb-8">
+                                    Credit limits are often viewed not as purchasing power, but as a liability. Building trust requires addressing deep-rooted fears regarding budgeting, hidden charges, and penalties. Cash is still seen as the ultimate tool for financial discipline.
+                                </p>
+                                <div className="mb-8 rounded-3xl overflow-hidden border border-border/10">
+                                    <img src={insight1Image} alt="Trust Foundation Insights" className="w-full h-auto" />
+                                </div>
 
-            <SiteFooter />
-        </main>
+                                <div className="space-y-6">
+                                    <div className="bg-muted/20 border border-border/10 rounded-2xl p-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <TargetChip target="NTC" />
+                                            <h5 className="font-bold text-foreground">Apprehensions about Expenses and Charges</h5>
+                                        </div>
+                                        <ExpandableQuotes 
+                                            topQuotes={
+                                                <>
+                                                    <QuoteBlock 
+                                                        quote="I totally believe in COD as I spend a lot & it would be difficult to budget myself using a CC."
+                                                        author="Sneha"
+                                                        role="Bangalore"
+                                                    />
+                                                    <QuoteBlock 
+                                                        quote="CC is the most expensive loan, late fee, EMI interest, lots of expenses, so it's best to avoid it."
+                                                        author="Muskan"
+                                                        role="Jaipur"
+                                                    />
+                                                </>
+                                            }
+                                            hiddenQuotes={
+                                                <>
+                                                    <QuoteBlock 
+                                                        quote="I am a B.Com and I know how to handle my finances. I have good savings hence I don't need Credit."
+                                                        author="Muskan"
+                                                        role="Jaipur"
+                                                    />
+                                                </>
+                                            }
+                                        />
+                                    </div>
+
+                                    <div className="bg-muted/20 border border-border/10 rounded-2xl p-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <TargetChip target="NTC" />
+                                            <h5 className="font-bold text-foreground">Concerns about CIBIL and Penalties</h5>
+                                        </div>
+                                        <QuoteBlock 
+                                            quote="I'm scared about how I'll pay the CC bill if the market goes down. CIBIL score is also affected if the payment isn't made on time."
+                                            author="Vikram"
+                                            role="Jaipur"
+                                        />
+                                    </div>
+
+                                    <div className="bg-muted/20 border border-border/10 rounded-2xl p-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <TargetChip target="Both" />
+                                            <h5 className="font-bold text-foreground">Cash & Debit as Finance Managers</h5>
+                                        </div>
+                                        <ExpandableQuotes 
+                                            topQuotes={
+                                                <>
+                                                    <QuoteBlock 
+                                                        quote="If I take cash while shopping with my wife, I'll only spend that much. With a CC, there is no limit to expenses."
+                                                        author="Nilesh"
+                                                        role="Jaipur"
+                                                    />
+                                                    <QuoteBlock 
+                                                        quote="At the start of the month, I withdraw 10k in cash and keep it at home. We just take from that for household expenses."
+                                                        author="Abhishek"
+                                                        role="Jaipur"
+                                                    />
+                                                </>
+                                            }
+                                            hiddenQuotes={
+                                                <QuoteBlock 
+                                                    quote="Initially, I withdrew cash using my CC, and that incurs a heavy penalty."
+                                                    author="Kaushal"
+                                                    role="Jaipur"
+                                                />
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Pillar 2: Tangible Value */}
+                            <div className="mb-20">
+                                <h4 className="text-2xl font-sans font-bold flex items-center gap-3 mb-4 text-foreground">
+                                    <Sparkles className="text-foreground bg-primary/10 p-1.5 rounded-lg w-8 h-8" />
+                                    Tangible Value: EMIs, Cashbacks & Relevance
+                                </h4>
+                                <p className="font-spectral text-lg text-foreground/80 leading-relaxed mb-8">
+                                    Once past the trust barrier, adoption relies purely on concrete value. Abstract perks are ignored, while tangible monetary returns, specifically No Cost EMIs and direct cashbacks, act as the primary catalyst for usage. Yet, this value must directly match the user's spending habits.
+                                </p>
+                                <div className="mb-8 rounded-3xl overflow-hidden border border-border/10">
+                                    <img src={insight2Image} alt="Tangible Value Insights" className="w-full h-auto" />
+                                </div>
+
+                                <div className="space-y-6">
+                                    <div className="bg-muted/20 border border-border/10 rounded-2xl p-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <TargetChip target="ETC" />
+                                            <h5 className="font-bold text-foreground">Financial Independence via No Cost EMIs</h5>
+                                        </div>
+                                        <ExpandableQuotes 
+                                            topQuotes={
+                                                <>
+                                                    <QuoteBlock 
+                                                        quote="Why should I pay from savings if I am getting 0% EMI on CC? I will get interest on my savings too!"
+                                                        author="Rajesh"
+                                                        role="Jaipur"
+                                                    />
+                                                    <QuoteBlock 
+                                                        quote="I don't need to ask any friend/relative for money. I have 30 lacs (6 CC's with 5 lac limit) with me which I can access any time."
+                                                        author="Sandeep"
+                                                        role="Jaipur"
+                                                    />
+                                                </>
+                                            }
+                                            hiddenQuotes={
+                                                <>
+                                                    <QuoteBlock 
+                                                        quote="I bought a phone for my dad and paid through my CC as I was low on cash and could pay next month."
+                                                        author="Krithika"
+                                                        role="Bangalore"
+                                                    />
+                                                </>
+                                            }
+                                        />
+                                    </div>
+
+                                    <div className="bg-muted/20 border border-border/10 rounded-2xl p-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <TargetChip target="Both" />
+                                            <h5 className="font-bold text-foreground">Navigating the Noise of Offers</h5>
+                                        </div>
+                                        <ExpandableQuotes 
+                                            topQuotes={
+                                                <>
+                                                    <QuoteBlock 
+                                                        quote="5% off has become a normal thing now. Everyone gives 5% or 10% off anyway."
+                                                        author="Balkrishan"
+                                                        role="Jaipur"
+                                                    />
+                                                    <QuoteBlock 
+                                                        quote="(After watching the video) This card easily gives a return of 500. It's beneficial from a purchasing point of view."
+                                                        author="Vikram"
+                                                        role="Jaipur"
+                                                    />
+                                                </>
+                                            }
+                                            hiddenQuotes={
+                                                <QuoteBlock 
+                                                    quote="I look at offers if they are useful to me. Show me offers on Grofers, DMart, or Fuel. I don't shop from Flipkart anyway."
+                                                    author="Nalini"
+                                                    role="Jaipur"
+                                                />
+                                            }
+                                        />
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                            {/* Pillar 3: Exclusivity */}
+                            <div className="mb-20">
+                                <h4 className="text-2xl font-sans font-bold flex items-center gap-3 mb-4 text-foreground">
+                                    <Gem className="text-foreground bg-primary/10 p-1.5 rounded-lg w-8 h-8" />
+                                    Exclusivity: Escaping the Commoditization Trap
+                                </h4>
+                                <p className="font-spectral text-lg text-foreground/80 leading-relaxed mb-8">
+                                    Credit cards are no longer status symbols. Aggressive offline marketing (e.g., kiosks in malls) has diluted exclusivity. Users now feel that the power resides with them; they wait for banks to approach them rather than actively applying. Premium features like lounge access and credit limits determine perceived value.
+                                </p>
+                                <div className="mb-8 rounded-3xl overflow-hidden border border-border/10">
+                                    <img src={insight3Image} alt="Exclusivity Insights" className="w-full h-auto" />
+                                </div>
+
+                                <div className="space-y-6">
+                                    <div className="bg-muted/20 border border-border/10 rounded-2xl p-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <TargetChip target="Both" />
+                                            <h5 className="font-bold text-foreground">The Loss of Aspirational Value</h5>
+                                        </div>
+                                        <ExpandableQuotes 
+                                            topQuotes={
+                                                <>
+                                                    <QuoteBlock 
+                                                        quote="I don't want to get a CC. If you show interest, there are many people roaming around in malls trying to hand out CCs."
+                                                        author="Sakshi"
+                                                        role="Jaipur"
+                                                    />
+                                                    <QuoteBlock 
+                                                        quote="If someone approaches me upfront, I might think about it, but why should I go and apply myself?"
+                                                        author="Sandeep"
+                                                        role="Jaipur"
+                                                    />
+                                                </>
+                                            }
+                                            hiddenQuotes={
+                                                <>
+                                                    <QuoteBlock 
+                                                        quote="Bank representatives came to my office, and I was getting free headphones for applying, so I applied there."
+                                                        author="Geeta"
+                                                        role="Jaipur"
+                                                    />
+                                                </>
+                                            }
+                                        />
+                                    </div>
+
+                                    <div className="bg-muted/20 border border-border/10 rounded-2xl p-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <TargetChip target="ETC" />
+                                            <h5 className="font-bold text-foreground">Scrutinizing Limits and Premium Perks</h5>
+                                        </div>
+                                        <ExpandableQuotes 
+                                            topQuotes={
+                                                <>
+                                                    <QuoteBlock 
+                                                        quote="It would be better if I knew what limit I'd get. What if they give me a card with a 20,000 limit, what would I even do with it? I already have cards with a 2.5 lakh limit."
+                                                        author="Nilesh"
+                                                        role="Jaipur"
+                                                    />
+                                                    <QuoteBlock 
+                                                        quote="Lounge access is mostly available on premium cards, which is good. Going to the airport has become quite normal now."
+                                                        author="Manish"
+                                                        role="Jaipur"
+                                                    />
+                                                </>
+                                            }
+                                            hiddenQuotes={
+                                                <QuoteBlock 
+                                                    quote="I had seen about the Flipkart Co-Branded Card earlier too, but I dropped the idea after seeing the 500 fees. The fees should be lower compared to the mall kiosks."
+                                                    author="Abhishek"
+                                                    role="Jaipur"
+                                                />
+                                            }
+                                        />
+                                    </div>
+                                    
+                                    <div className="bg-muted/20 border border-border/10 rounded-2xl p-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <TargetChip target="Both" />
+                                            <h5 className="font-bold text-foreground">Missing the Co-Branded Context</h5>
+                                        </div>
+                                        <QuoteBlock 
+                                            quote="I saw the OLA CBC in the app but didn't apply for it. If I want a card I will ask the bank. I think OLA becomes a mediator."
+                                            author="Rahul"
+                                            role="Bangalore"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </InsightSection>
+                    </section>
+
+                    <div className="w-full h-px bg-border/20 my-16"></div>
+
+                    <section id="personas" className="scroll-mt-32">
+                        <InsightSection label="Archetypes" title="User Personas">
+                            <div className="grid md:grid-cols-2 gap-6 mt-8 font-sans">
+                                
+                                {/* Persona 1 */}
+                                <div className="bg-muted/20 border border-border/10 rounded-3xl p-8 flex flex-col hover:bg-muted/40 transition-colors">
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center font-black text-2xl uppercase">
+                                            V
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xl font-bold text-foreground">The Veteran</h4>
+                                            <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Multiple CC Holder</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex-1 space-y-4">
+                                        <div>
+                                            <span className="text-[10px] uppercase font-bold text-foreground tracking-widest mb-1 block">Feels</span>
+                                            <ul className="text-sm text-foreground/80 space-y-1 list-disc list-inside">
+                                                <li>CCs provide financial independence</li>
+                                                <li>Meant to be used for all transactions</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <span className="text-[10px] uppercase font-bold text-foreground tracking-widest mb-1 block">Wants</span>
+                                            <ul className="text-sm text-foreground/80 space-y-1 list-disc list-inside">
+                                                <li>Incremental, highly tangible benefits</li>
+                                                <li>Credit limits on par with their premium cards</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Persona 2 */}
+                                <div className="bg-muted/20 border border-border/10 rounded-3xl p-8 flex flex-col hover:bg-muted/40 transition-colors">
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center font-black text-2xl uppercase">
+                                            S
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xl font-bold text-foreground">The Shopper</h4>
+                                            <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Manages Household Budget</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex-1 space-y-4">
+                                        <div>
+                                            <span className="text-[10px] uppercase font-bold text-foreground tracking-widest mb-1 block">Feels</span>
+                                            <ul className="text-sm text-foreground/80 space-y-1 list-disc list-inside">
+                                                <li>CCs might tempt them to increase expenses</li>
+                                                <li>Fear of hidden charges</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <span className="text-[10px] uppercase font-bold text-foreground tracking-widest mb-1 block">Wants</span>
+                                            <ul className="text-sm text-foreground/80 space-y-1 list-disc list-inside">
+                                                <li>Highly relevant, category-specific offers</li>
+                                                <li>Clear math on how shopping saves them money</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Persona 3 */}
+                                <div className="bg-muted/20 border border-border/10 rounded-3xl p-8 flex flex-col md:col-span-2 hover:bg-muted/40 transition-colors">
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center font-black text-2xl uppercase">
+                                            O
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xl font-bold text-foreground">The Orthodox</h4>
+                                            <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Cash & Debit Purist</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex-1 grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <span className="text-[10px] uppercase font-bold text-foreground tracking-widest mb-1 block">Feels</span>
+                                            <ul className="text-sm text-foreground/80 space-y-1 list-disc list-inside">
+                                                <li>Strongly against the idea of credit/loans</li>
+                                                <li>Deep fear of negative CIBIL impact</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <span className="text-[10px] uppercase font-bold text-foreground tracking-widest mb-1 block">Wants</span>
+                                            <ul className="text-sm text-foreground/80 space-y-1 list-disc list-inside">
+                                                <li>To play it safe using only personal savings</li>
+                                                <li>Absolute assurance of control over personal finances</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </InsightSection>
+                    </section>
+
+                    <div className="w-full h-px bg-border/20 my-16"></div>
+
+                    <section id="strategy" className="scroll-mt-32">
+                        <InsightSection label="Translation" title="Strategy to Feature">
+                            <p className="mb-10">
+                                Shifting from raw psychology to actionable features requires bridging what we observed ('I saw this') 
+                                with our domain knowledge ('I know this'), leading to concrete product ideation.
+                            </p>
+
+                            <FlipkartIdeationVisual />
+
+                            <IdeationCard 
+                                saw="NTC users hold vast misconceptions about hidden charges, penalties, and interest rates. Most are completely unaware of what a Co-Branded Card actually is."
+                                know="Financial anxiety blocks conversion. Ambiguity is the enemy of adoption."
+                                pattern="Interactive Financial Education"
+                                idea="Implement a highly transparent, interactive 'CC anatomy' explainer video and interactive sandbox during the application flow. Show exactly how billing cycles work and where fees apply, building immense trust upfront."
+                            />
+
+                            <IdeationCard 
+                                saw="Users couldn't comprehend the static value of '1.5% cashback'. But when shown a video demonstrating actual savings, they were immediately intrigued and wanted to apply."
+                                know="Abstract percentages lack emotional weight. Concrete monetary value drives desire."
+                                pattern="Dynamic Value Projections"
+                                idea="Build a dynamic 'Savings Simulator' on the Store Page. Users input their monthly spend across categories (grocery, flights, e-commerce), and the UI generates a concrete, projected annual savings figure."
+                            />
+
+                            <IdeationCard 
+                                saw="People using aggressive credit card 'booths' at malls view the card as cheap/replaceable. Meanwhile, experienced users heavily scrutinize their credit limits."
+                                know="Prestige and exclusivity are powerful motivators. Users want to feel selected, not sold to."
+                                pattern="Invitational Exclusivity"
+                                idea="Pivot the marketing from 'Apply Now' to an aesthetic 'Request an Invite' or 'Check your exclusive pre-approval limit', positioning the card as a privileged membership rather than a commodity."
+                            />
+                        </InsightSection>
+                    </section>
+                    </PasswordLock>
+                </div>
+
+                <ExploreProjects />
+                
+                <SiteFooter />
+            </main>
+        </div>
     );
 }
