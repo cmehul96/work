@@ -200,7 +200,7 @@ export default function Resume() {
             <div className="flex flex-wrap gap-2 md:gap-3 print:gap-1.5">
               {[
                 'Foundational Research', 'Usability Testing', 'In-Depth Interviews', 'Shadowing / Ethnography',
-                'Diary Studies', 'Survey Design', 'Quantitative Analysis', 'SQL & Data Analytics', 'AI Agents / Synthesis',
+                'Diary Studies', 'Survey Design', 'Quantitative Analysis', 'SQL & Data Analytics', 'AI Agents', 'Synthesis',
                 'Service Blueprinting', 'Journey Mapping', 'Design Workshops'
               ].map(skill => (
                 <span key={skill} className="px-3 md:px-4 py-1.5 md:py-2 bg-muted/60 print:bg-gray-100 print:text-gray-900 print:py-1 print:px-2 rounded-full text-sm print:text-[10px] font-medium text-foreground tracking-tight font-sans transition-colors hover:bg-muted/80">
@@ -260,6 +260,11 @@ export default function Resume() {
           * {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
+            letter-spacing: 0px !important;
+            font-variant-ligatures: none !important;
+            font-kerning: none !important;
+            text-rendering: auto !important;
+            font-family: Arial, Helvetica, sans-serif !important;
           }
           
           /* Force components to fit */
