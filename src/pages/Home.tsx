@@ -56,9 +56,9 @@ export default function Home() {
             <div className="flex flex-row items-stretch md:block gap-4 sm:gap-6 mb-6">
               <div className="w-24 sm:w-36 md:hidden rounded-2xl overflow-hidden shrink-0 bg-muted relative">
                 <img 
-                  src="https://media.licdn.com/dms/image/v2/D5603AQGd9V_FiYOhKA/profile-displayphoto-scale_400_400/B56ZtqUEiuLAAg-/0/1767015207960?e=1779926400&v=beta&t=DdGmB2Jsr7Y8-Dhk6tSr_VncDQYuQtu-p8aJoj6NYT4" 
-                  alt="Mehul Chaudhary" 
-                  className="absolute inset-0 w-full h-full object-cover" 
+                  src="/images/DP.jpeg"
+                  alt="Mehul Chaudhary"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
               <h1 className="font-sans text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.1] md:leading-[1.05] tracking-tighter text-foreground group text-left m-0 md:mb-6 flex-1 py-0.5 md:py-0">
@@ -83,8 +83,8 @@ export default function Home() {
             <div className="relative p-3 rounded-[2.5rem] bg-background/50 border border-border/10 backdrop-blur-sm">
               <div className="w-48 h-48 sm:w-56 sm:h-56 lg:w-72 lg:h-72 rounded-[2rem] overflow-hidden relative isolate z-10 bg-muted transition-all duration-700 ease-out">
                 <img 
-                  src="https://media.licdn.com/dms/image/v2/D5603AQGd9V_FiYOhKA/profile-displayphoto-scale_400_400/B56ZtqUEiuLAAg-/0/1767015207960?e=1779926400&v=beta&t=DdGmB2Jsr7Y8-Dhk6tSr_VncDQYuQtu-p8aJoj6NYT4" 
-                  alt="Mehul Chaudhary" 
+                  src="/images/DP.jpeg"
+                  alt="Mehul Chaudhary"
                   className="w-full h-full object-cover scale-105 hover:scale-100 transition-transform duration-700 ease-out" 
                 />
               </div>
