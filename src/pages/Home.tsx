@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ThemeToggle } from '../components/ui/theme-toggle';
 import { AgentWorkflowVisualization } from '../components/agent-visualization';
@@ -144,9 +144,17 @@ export default function Home() {
                         <ArrowUpRight size={18} />
                       </div>
                     </div>
-                    <p className="text-foreground/70 leading-[1.6] font-spectral text-lg mb-6 flex-grow">
+                    <p className="text-foreground/70 leading-[1.6] font-spectral text-lg mb-4 flex-grow">
                       {project.description}
                     </p>
+                    {project.impact && (
+                      <div className="flex items-start gap-2.5 mb-6 p-3.5 rounded-2xl bg-primary/5 border border-primary/10">
+                        <TrendingUp className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                        <p className="text-foreground/80 text-sm font-medium leading-relaxed font-sans">
+                          {project.impact}
+                        </p>
+                      </div>
+                    )}
                     <div className="flex flex-wrap gap-2 mt-auto">
                       {project.tags.map((tag, i) => (
                         <span
