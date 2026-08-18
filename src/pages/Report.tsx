@@ -255,6 +255,10 @@ export default function ReportPage() {
                         Analyzing the trust barrier preventing AI from transforming into an autonomous wealth advisor.
                     </p>
 
+                    <p className="text-sm font-bold uppercase tracking-widest text-primary/80 mb-4">
+                        Done entirely end-to-end using <a href="/foresite" className="underline decoration-primary/40 underline-offset-4 hover:text-primary transition-colors">Foresite</a>.
+                    </p>
+
                     <div className="w-full mt-8 rounded-[2rem] overflow-hidden bg-muted/10 shadow-2xl shadow-primary/5">
                         <img 
                             src={heroBanner} 
@@ -601,7 +605,7 @@ export default function ReportPage() {
                                         </div>
                                         <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 group-hover:text-primary transition-colors">AI Toolsets</span>
                                     </div>
-                                    <p className="text-base text-foreground/90 font-medium leading-relaxed font-spectral">Active usage of ChatGPT, Claude, Gemini, and Perplexity Finance for knowledge retrieval.</p>
+                                    <p className="text-base text-foreground/90 font-medium leading-relaxed font-spectral">This entire project - from research planning to synthesis - was run end-to-end by <a href="/foresite" className="text-primary font-bold hover:underline">Foresite</a>, available at <a href="https://theforesite.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold hover:underline">theforesite.com</a>.</p>
                                 </div>
                             </div>
 

@@ -39,7 +39,7 @@ export default function IndihoodPage() {
 
             <main className="pb-32">
                 {/* Hero Section */}
-                <div className="w-full bg-muted/10 border-b border-border/10 font-sans pt-12 pb-20 px-6 relative overflow-hidden">
+                <div className="w-full bg-muted/10 border-b border-border/10 font-sans pt-28 pb-20 px-6 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-32 opacity-5 pointer-events-none"></div>
                     <div className="max-w-4xl mx-auto flex flex-col items-center text-center relative z-10">
                         <div className="mb-8 flex items-center gap-3">
@@ -232,6 +232,16 @@ export default function IndihoodPage() {
                                 <div className="bg-background border border-dashed border-border/50 rounded-3xl p-8 text-center text-muted-foreground">
                                     <p className="font-spectral text-lg italic">
                                         Project is still ongoing. Further outcomes will be documented as the implementation progresses.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h4 className="text-2xl font-bold font-sans text-foreground mb-4">2. Scaling the Impact: Built from the Ground Up for HDFC Bank</h4>
+                                    <p className="font-spectral text-lg text-foreground/80 leading-relaxed mb-4">
+                                        Every insight and brainstorming session from this research is directly feeding into an application being built from scratch for HDFC Bank, one of the largest private banks in the country. Rather than patching the existing flow, the findings became the foundation for the new onboarding system's architecture from day one.
+                                    </p>
+                                    <p className="font-spectral text-lg text-foreground/80 leading-relaxed">
+                                        This will directly affect and improve the experience of the lacs of current accounts opened by HDFC every year.
                                     </p>
                                 </div>
 

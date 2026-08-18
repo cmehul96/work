@@ -16,6 +16,7 @@ const heroBanner = "/images/flipkart/1.0.jpeg";
 const insight1Image = "/images/flipkart/1.1.jpeg";
 const insight2Image = "/images/flipkart/1.2.jpeg";
 const insight3Image = "/images/flipkart/1.3.jpeg";
+const cardConsoleImage = "/images/flipkart/1.4.png";
 
 // --- Helper UI Components ---
 function QuoteBlock({ quote, author, role, blurred = false }: { quote: React.ReactNode, author: React.ReactNode, role: React.ReactNode, blurred?: boolean }) {
@@ -128,7 +129,7 @@ export default function FlipkartPage() {
 
             <main className="pb-32">
                 {/* Hero Section */}
-                <div className="w-full bg-muted/10 border-b border-border/10 font-sans pt-12 pb-20 px-6">
+                <div className="w-full bg-muted/10 border-b border-border/10 font-sans pt-28 pb-20 px-6">
                     <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
                         <div className="mb-8 flex items-center gap-3">
                             <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">UX Research</span>
@@ -630,12 +631,43 @@ export default function FlipkartPage() {
                                 idea="Build a dynamic 'Savings Simulator' on the Store Page. Users input their monthly spend across categories (grocery, flights, e-commerce), and the UI generates a concrete, projected annual savings figure."
                             />
 
-                            <IdeationCard 
-                                saw="People using aggressive credit card 'booths' at malls view the card as cheap/replaceable. Meanwhile, experienced users heavily scrutinize their credit limits."
-                                know="Prestige and exclusivity are powerful motivators. Users want to feel selected, not sold to."
-                                pattern="Invitational Exclusivity"
-                                idea="Pivot the marketing from 'Apply Now' to an aesthetic 'Request an Invite' or 'Check your exclusive pre-approval limit', positioning the card as a privileged membership rather than a commodity."
+                            <IdeationCard
+                                saw="Users couldn't see the ongoing value of holding the card once they were approved. Cashback, credit usage, and billing lived in disconnected screens, so the card felt invisible after the sale."
+                                know="Retention and continued spend depend on constantly reinforcing value, not just winning the initial approval."
+                                pattern="Post-Approval Value Surfacing"
+                                idea={
+                                    <>
+                                        Build a unified <strong className="font-bold">Card Console</strong> - a single home for the card that surfaces cashback earned, bill summary, and credit usage up front, with card usage details and recent transactions one tap away. Instead of selling the card once, it keeps proving its value every time the user opens it.
+                                    </>
+                                }
                             />
+
+                            <img src={cardConsoleImage} alt="Card Console concept" className="mt-4 rounded-2xl w-full" />
+                        </InsightSection>
+                    </section>
+
+                    <div className="w-full h-px bg-border/20 my-16"></div>
+
+                    <section id="impact" className="scroll-mt-32">
+                        <InsightSection label="Impact" title="Shipped to Production">
+                            <div className="grid gap-6 not-italic">
+                                <div className="bg-background border border-border/10 rounded-3xl p-6 flex gap-4 items-start hover:border-primary/20 transition-colors">
+                                    <div className="p-3 bg-primary/10 rounded-xl shrink-0">
+                                        <CreditCard className="w-5 h-5 text-primary" />
+                                    </div>
+                                    <p className="text-lg font-spectral text-foreground/80 leading-relaxed">
+                                        The <strong className="font-bold text-foreground">Card Console</strong> concept didn't stay a mock-up - it was actually built and shipped, becoming the card's home screen where users check their bill, cashback, and usage at a glance every time they open it. Interestingly, beyond spends and cashback, simply viewing the <strong className="font-bold text-foreground">card number and details</strong> turned out to be one of the most used features in the console.
+                                    </p>
+                                </div>
+                                <div className="bg-background border border-border/10 rounded-3xl p-6 flex gap-4 items-start hover:border-primary/20 transition-colors">
+                                    <div className="p-3 bg-primary/10 rounded-xl shrink-0">
+                                        <User className="w-5 h-5 text-primary" />
+                                    </div>
+                                    <p className="text-lg font-spectral text-foreground/80 leading-relaxed">
+                                        The <strong className="font-bold text-foreground">Veteran, Shopper, and Orthodox personas</strong> developed from this research were actually used by the marketing team to run targeted campaigns, tailoring messaging and offers to each mindset instead of a one-size-fits-all pitch.
+                                    </p>
+                                </div>
+                            </div>
                         </InsightSection>
                     </section>
                     </PasswordLock>

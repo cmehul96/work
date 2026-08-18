@@ -97,7 +97,7 @@ export default function SwiggyPage() {
 
             <main className="pb-32">
                 {/* Hero Section */}
-                <section className="pt-12 pb-20 px-6 max-w-4xl mx-auto flex flex-col items-center text-center">
+                <section className="pt-28 pb-20 px-6 max-w-4xl mx-auto flex flex-col items-center text-center">
                     <div className="mb-8 flex flex-wrap gap-2 justify-center">
                         <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-[#fc8019]/10 text-[#fc8019]">Swiggy</span>
                         <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-muted text-muted-foreground">2022</span>

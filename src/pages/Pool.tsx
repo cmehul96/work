@@ -448,6 +448,32 @@ export default function PoolPage() {
                         </div>
                     </InsightSection>
                 </section>
+
+                <div className="w-full h-px bg-border/20 my-16"></div>
+
+                <section id="impact" className="scroll-mt-32">
+                    <InsightSection label="Impact" title="From Research to Shipped Experience">
+                        <p className="mb-8">
+                            The Linear Timeline UI concept born out of this research wasn't just a proposal - it was actually built and shipped to riders, becoming the core mapless way of showing the Pool experience in Uber Lite.
+                        </p>
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div className="rounded-[2rem] overflow-hidden bg-muted/10 shadow-xl shadow-primary/5">
+                                <img
+                                    src="/images/pool/impact-1.png"
+                                    alt="Uber Lite shipped Pool experience"
+                                    className="w-full h-auto object-cover"
+                                />
+                            </div>
+                            <div className="rounded-[2rem] overflow-hidden bg-muted/10 shadow-xl shadow-primary/5">
+                                <img
+                                    src="/images/pool/impact-2.avif"
+                                    alt="Uber Lite shipped Pool timeline UI"
+                                    className="w-full h-auto object-cover"
+                                />
+                            </div>
+                        </div>
+                    </InsightSection>
+                </section>
                 </PasswordLock>
 
                 <div className="h-16"></div>
