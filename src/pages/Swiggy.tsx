@@ -107,7 +107,7 @@ export default function SwiggyPage() {
                     </div>
 
                     <h1 className="text-4xl md:text-5xl lg:text-[4.5rem] font-bold tracking-tighter leading-[1.05] mb-8 font-sans">
-                        The Exploration Paradox: Cutting Decision Time for Swiggy's Power Users
+                        The Exploration Paradox
                     </h1>
                     
                     <p className="text-xl md:text-2xl text-foreground/70 font-spectral leading-[1.6] max-w-3xl mb-12">
